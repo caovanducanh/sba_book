@@ -1,5 +1,6 @@
 package com.example.demologin.initializer;
 
+import com.example.demologin.initializer.components.BookManagementDataInitializer;
 import com.example.demologin.initializer.components.DefaultUserInitializer;
 import com.example.demologin.initializer.components.PermissionRoleInitializer;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,8 @@ import org.springframework.stereotype.Component;
  * Execution Order:
  * 1. PermissionRoleInitializer - Creates permissions and roles
  * 2. DefaultUserInitializer - Creates default users with assigned roles
- * 3. Future initializers can be added here with proper ordering
+ * 3. BookManagementDataInitializer - Creates sample categories and books
+ * 4. Future initializers can be added here with proper ordering
  */
 @Component
 @RequiredArgsConstructor
@@ -27,6 +29,7 @@ public class MainDataInitializer implements CommandLineRunner {
 
     private final PermissionRoleInitializer permissionRoleInitializer;
     private final DefaultUserInitializer defaultUserInitializer;
+    private final BookManagementDataInitializer bookManagementDataInitializer;
 
     @Override
     public void run(String... args) throws Exception {
@@ -42,6 +45,13 @@ public class MainDataInitializer implements CommandLineRunner {
             log.info("👥 Step 2: Initializing Default Users...");
             defaultUserInitializer.initializeDefaultUsers();
             log.info("✅ Default Users initialization completed");
+            
+            // Step 3: Initialize Sample Book Management Data
+            log.info("📚 Step 3: Initializing Sample Book Management Data...");
+            int[] sampleData = bookManagementDataInitializer.initializeSampleData();
+            if (sampleData[0] > 0 || sampleData[1] > 0) {
+                log.info("✅ Sample Book Management Data initialization completed");
+            }
             
             // Future initialization steps can be added here
             // Example:

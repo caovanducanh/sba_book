@@ -49,6 +49,17 @@ public class PermissionRoleInitializer {
 
     private static final String USER_VIEW_OWN_LOGIN_HISTORY = "USER_VIEW_OWN_LOGIN_HISTORY";
 
+    // ===================== BOOK MANAGEMENT PERMISSIONS =====================
+    private static final String CATEGORY_VIEW = "CATEGORY_VIEW";
+    private static final String CATEGORY_CREATE = "CATEGORY_CREATE";
+    private static final String CATEGORY_UPDATE = "CATEGORY_UPDATE";
+    private static final String CATEGORY_DELETE = "CATEGORY_DELETE";
+    
+    private static final String BOOK_VIEW = "BOOK_VIEW";
+    private static final String BOOK_CREATE = "BOOK_CREATE";
+    private static final String BOOK_UPDATE = "BOOK_UPDATE";
+    private static final String BOOK_DELETE = "BOOK_DELETE";
+
     @Transactional
     public void initializePermissionsAndRoles() {
         log.info("🔑 Initializing system permissions and roles...");
@@ -85,7 +96,17 @@ public class PermissionRoleInitializer {
                 new Permission(LOG_VIEW_ACTIVITY, "Xem user activity logs"),
                 new Permission(ADMIN_ACTIVITY_LOG_EXPORT, "Export user activity logs"),
                 new Permission(LOG_DELETE, "Xóa user activity logs"),
-                new Permission(USER_VIEW_OWN_LOGIN_HISTORY, "Xem lịch sử đăng nhập của bản thân")
+                new Permission(USER_VIEW_OWN_LOGIN_HISTORY, "Xem lịch sử đăng nhập của bản thân"),
+                
+                // Book Management Permissions
+                new Permission(CATEGORY_VIEW, "Xem danh mục sách"),
+                new Permission(CATEGORY_CREATE, "Tạo danh mục sách"),
+                new Permission(CATEGORY_UPDATE, "Cập nhật danh mục sách"),
+                new Permission(CATEGORY_DELETE, "Xóa danh mục sách"),
+                new Permission(BOOK_VIEW, "Xem sách"),
+                new Permission(BOOK_CREATE, "Tạo sách"),
+                new Permission(BOOK_UPDATE, "Cập nhật sách"),
+                new Permission(BOOK_DELETE, "Xóa sách")
         );
 
         permissionRepository.saveAll(permissions);
