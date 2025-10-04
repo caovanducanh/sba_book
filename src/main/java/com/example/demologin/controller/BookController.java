@@ -5,6 +5,7 @@ import com.example.demologin.annotation.PageResponse;
 import com.example.demologin.annotation.SecuredEndpoint;
 import com.example.demologin.dto.request.book.CreateBookRequest;
 import com.example.demologin.dto.request.book.UpdateBookRequest;
+import com.example.demologin.dto.response.ResponseObject;
 import com.example.demologin.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -96,13 +97,13 @@ public class BookController {
     }
     
     @DeleteMapping("/{bookId}")
-    @ApiResponse(message = "Book deleted successfully")
+//    @ApiResponse(message = "Book deleted successfully")
     @SecuredEndpoint("BOOK_DELETE")
     @Operation(summary = "Delete book", description = "Delete a book")
-    public ResponseEntity<Void> deleteBook(
+    public Object deleteBook(
             @Parameter(description = "Book ID") @PathVariable Long bookId) {
         bookService.deleteBook(bookId);
-        return ResponseEntity.noContent().build();
+        return new ResponseObject(HttpStatus.OK.value(), "Book deleted successfully", null);
     }
     
     @PatchMapping("/{bookId}/toggle-availability")
@@ -141,7 +142,7 @@ public class BookController {
     @ApiResponse(message = "Book stock increased successfully")
     @SecuredEndpoint("BOOK_UPDATE")
     @Operation(summary = "Increase book stock", description = "Increase book stock by specified quantity")
-    public ResponseEntity<Void> increaseBookStock(
+    public Object increaseBookStock(
             @Parameter(description = "Book ID") @PathVariable Long bookId,
             @Parameter(description = "Quantity to increase") @RequestParam Integer quantity) {
         bookService.increaseBookStock(bookId, quantity);

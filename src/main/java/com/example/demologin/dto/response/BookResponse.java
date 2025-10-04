@@ -59,8 +59,8 @@ public class BookResponse {
     @JsonProperty("updatedAt")
     private LocalDateTime updatedAt;
     
-    @JsonProperty("category")
-    private CategoryResponse category;
+    @JsonProperty("categoryId")
+    private Long categoryId;
     
     @JsonProperty("inStock")
     private Boolean inStock;
@@ -84,7 +84,7 @@ public class BookResponse {
         response.setInStock(book.isInStock());
         
         if (book.getCategory() != null) {
-            response.setCategory(CategoryResponse.toCategoryResponse(book.getCategory()));
+            response.setCategoryId(book.getCategory().getCategoryId());
         }
         
         return response;
