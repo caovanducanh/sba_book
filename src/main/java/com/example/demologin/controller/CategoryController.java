@@ -11,8 +11,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -68,10 +66,9 @@ public class CategoryController {
     @ApiResponse(message = "Category created successfully")
     @SecuredEndpoint("CATEGORY_CREATE")
     @Operation(summary = "Create new category", description = "Create a new book category")
-    public ResponseEntity<Object> createCategory(
+    public Object createCategory(
             @Parameter(description = "Category creation request") @Valid @RequestBody CreateCategoryRequest request) {
-        Object result = categoryService.createCategory(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+        return categoryService.createCategory(request);
     }
     
     @PutMapping("/{categoryId}")
@@ -88,19 +85,19 @@ public class CategoryController {
     @ApiResponse(message = "Category deleted successfully")
     @SecuredEndpoint("CATEGORY_DELETE")
     @Operation(summary = "Delete category", description = "Delete a category (only if it has no books)")
-    public ResponseEntity<Void> deleteCategory(
+    public Object deleteCategory(
             @Parameter(description = "Category ID") @PathVariable Long categoryId) {
         categoryService.deleteCategory(categoryId);
-        return ResponseEntity.noContent().build();
+        return null;
     }
     
     @PatchMapping("/{categoryId}/toggle-status")
     @ApiResponse(message = "Category status updated successfully")
     @SecuredEndpoint("CATEGORY_UPDATE")
     @Operation(summary = "Toggle category status", description = "Toggle category active/inactive status")
-    public ResponseEntity<Void> toggleCategoryStatus(
+    public Object toggleCategoryStatus(
             @Parameter(description = "Category ID") @PathVariable Long categoryId) {
         categoryService.toggleCategoryStatus(categoryId);
-        return ResponseEntity.ok().build();
+        return null;
     }
 }

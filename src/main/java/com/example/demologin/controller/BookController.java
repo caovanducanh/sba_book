@@ -5,15 +5,12 @@ import com.example.demologin.annotation.PageResponse;
 import com.example.demologin.annotation.SecuredEndpoint;
 import com.example.demologin.dto.request.book.CreateBookRequest;
 import com.example.demologin.dto.request.book.UpdateBookRequest;
-import com.example.demologin.dto.response.ResponseObject;
 import com.example.demologin.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -80,10 +77,9 @@ public class BookController {
     @ApiResponse(message = "Book created successfully")
     @SecuredEndpoint("BOOK_CREATE")
     @Operation(summary = "Create new book", description = "Create a new book")
-    public ResponseEntity<Object> createBook(
+    public Object createBook(
             @Parameter(description = "Book creation request") @Valid @RequestBody CreateBookRequest request) {
-        Object result = bookService.createBook(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+        return bookService.createBook(request);
     }
     
     @PutMapping("/{bookId}")
@@ -97,45 +93,45 @@ public class BookController {
     }
     
     @DeleteMapping("/{bookId}")
-//    @ApiResponse(message = "Book deleted successfully")
+    @ApiResponse(message = "Book deleted successfully")
     @SecuredEndpoint("BOOK_DELETE")
     @Operation(summary = "Delete book", description = "Delete a book")
     public Object deleteBook(
             @Parameter(description = "Book ID") @PathVariable Long bookId) {
         bookService.deleteBook(bookId);
-        return new ResponseObject(HttpStatus.OK.value(), "Book deleted successfully", null);
+        return null;
     }
     
     @PatchMapping("/{bookId}/toggle-availability")
     @ApiResponse(message = "Book availability updated successfully")
     @SecuredEndpoint("BOOK_UPDATE")
     @Operation(summary = "Toggle book availability", description = "Toggle book available/unavailable status")
-    public ResponseEntity<Void> toggleBookAvailability(
+    public Object toggleBookAvailability(
             @Parameter(description = "Book ID") @PathVariable Long bookId) {
         bookService.toggleBookAvailability(bookId);
-        return ResponseEntity.ok().build();
+        return null;
     }
     
     @PatchMapping("/{bookId}/stock")
     @ApiResponse(message = "Book stock updated successfully")
     @SecuredEndpoint("BOOK_UPDATE")
     @Operation(summary = "Update book stock", description = "Update book stock quantity")
-    public ResponseEntity<Void> updateBookStock(
+    public Object updateBookStock(
             @Parameter(description = "Book ID") @PathVariable Long bookId,
             @Parameter(description = "New stock quantity") @RequestParam Integer quantity) {
         bookService.updateBookStock(bookId, quantity);
-        return ResponseEntity.ok().build();
+        return null;
     }
     
     @PatchMapping("/{bookId}/stock/decrease")
     @ApiResponse(message = "Book stock decreased successfully")
     @SecuredEndpoint("BOOK_UPDATE")
     @Operation(summary = "Decrease book stock", description = "Decrease book stock by specified quantity")
-    public ResponseEntity<Void> decreaseBookStock(
+    public Object decreaseBookStock(
             @Parameter(description = "Book ID") @PathVariable Long bookId,
             @Parameter(description = "Quantity to decrease") @RequestParam Integer quantity) {
         bookService.decreaseBookStock(bookId, quantity);
-        return ResponseEntity.ok().build();
+        return null;
     }
     
     @PatchMapping("/{bookId}/stock/increase")
@@ -146,6 +142,6 @@ public class BookController {
             @Parameter(description = "Book ID") @PathVariable Long bookId,
             @Parameter(description = "Quantity to increase") @RequestParam Integer quantity) {
         bookService.increaseBookStock(bookId, quantity);
-        return ResponseEntity.ok().build();
+        return null;
     }
 }
